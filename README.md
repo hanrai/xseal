@@ -8,6 +8,7 @@
 [![Platform](https://img.shields.io/badge/Platform-Linux-lightgrey.svg)](https://linux.org)
 [![Language](https://img.shields.io/badge/Language-C%2B%2B20-blue.svg)](https://isocpp.org/)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20338868.svg)](https://doi.org/10.5281/zenodo.20338868)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20351426.svg)](https://doi.org/10.5281/zenodo.20351426)
 
 **XSeal** is a state-of-the-art, header-only C++20 library designed for ultra-high-speed sequence analysis. By leveraging modern micro-architectural optimizations and SIMD-BMI2 hybrid pipelines, XSeal pushes SIMD-resident k-mer sampling throughput toward the practical limits observed on modern AVX2 CPUs.
 
