@@ -1,0 +1,21 @@
+[build-system]
+requires = ["scikit-build-core>=0.10.0", "pybind11>=2.13.0"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "xsealsyncmer"
+version = "0.1.0"
+description = "XSealSyncmer: Ultra-high throughput Syncmer extraction"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+    { name = "hanrai" },
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: C++",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+
+[tool.scikit-build]
+cmake.version = ">=3.18"

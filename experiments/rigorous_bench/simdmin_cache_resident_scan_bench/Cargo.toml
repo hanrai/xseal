@@ -1,0 +1,15 @@
+[package]
+name = "simdmin_cache_resident_scan_bench"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+simd-minimizers = { path = "../../../external/simd-minimizers" }
+packed-seq = "4.2.0"
+memmap2 = "0.9"
+rayon = "1.10"
+
+[profile.release]
+lto = "thin"
+opt-level = 3
+codegen-units = 1

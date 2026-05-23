@@ -1,0 +1,15 @@
+[package]
+name = "simdmin_hash_isolation_bench"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+packed-seq = "4.2.0"
+seq-hash = "0.1.1"
+rayon = "1.10"
+wide = "0.7.33"
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1

@@ -1,0 +1,115 @@
+# IDEs and Editors
+.idea/
+.vscode/
+*.swp
+
+# Build directories and files
+build/
+build_*/
+out/
+out*/
+bin/
+*.exe
+*.o
+*.obj
+*.a
+*.so
+*.dll
+*.lib
+*.xidx
+CMakeCache.txt
+CMakeFiles/
+Makefile
+!integration/minimap2_xseal_hardened/Makefile
+cmake_install.cmake
+*.cbp
+
+# Binaries
+paper/paper_bench
+benchmark/xseal_bench
+benchmark/bench_xseal_encoder
+benchmark/pure_syncmer_bench
+test/test_xseal_encoder
+tools/verify_correctness
+tools/xseal_bench
+verify_cpp
+verify/xseal_syncmer_verify
+
+# Data files (strictly ignored for cleanroom release)
+data/*
+!data/.gitkeep
+*.fasta
+*.fa
+*.fna
+*.fastq
+*.fq
+*.fastq.gz
+*.fq.gz
+*.sam
+*.bam
+*.bin
+*.pos
+*.mmi
+*.txt
+# Do not ignore CMakeLists.txt
+!CMakeLists.txt
+# Do not ignore txt files that are documentation or scripts
+!*.cmake
+!*.sh
+!*.md
+
+# Simulators or external tools (currently untracked)
+NanoSim/
+wgsim/
+
+# Logs
+*.log
+
+# Caches and DBs
+.cache/
+compile_commands.json
+perf.data
+perf.data.old
+*.asm
+scratch/
+
+# Rust/Cargo build artifacts
+target/
+Cargo.lock
+*.rlib
+*.rmeta
+*.d
+
+# External dependencies and large indices
+_deps/
+external/
+experiments/baselines/minimap2/
+
+# paper_repro: keep results/ directory but ignore generated artifacts
+experiments/paper_repro/results/*
+!experiments/paper_repro/results/.gitkeep
+
+# experiments/results: generated metrics/logs (keep .gitkeep only)
+experiments/results/*
+!experiments/results/.gitkeep
+
+# Local bench binaries and repro output trees
+experiments/rigorous_bench/xseal_hot_bench
+experiments/rigorous_bench/simd_min_hot_bench
+experiments/rigorous_bench/repro_*_out/
+integration/minimap2_xseal_hardened/bench_*/
+integration/minimap2_xseal_hardened/*.o
+
+# Local bench binaries / profiler drops (not source)
+experiments/rigorous_bench/stlf_microbench
+experiments/rigorous_bench/window_reduce_bench
+experiments/rigorous_bench/reports/
+
+# Science and validation binaries/data
+experiments/scientific_validation/*.pos
+experiments/scientific_validation/*.bin
+experiments/scientific_validation/mutated.bin
+experiments/scientific_validation/slice.bin
+experiments/microbenchmarks/xseal_bench
+experiments/microbenchmarks/xseal_frontend_bench
+experiments/rigorous_bench/**/target/

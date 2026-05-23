@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: "Fan"
+    given-names: "Lei"
+title: "XSeal: Microarchitectural Optimization of SIMD-Resident Genomic Sampling Pipelines"
+version: "1.0.0"
+doi: "10.5281/zenodo.20338868"
+date-released: "2026-05-22"
+url: "https://doi.org/10.5281/zenodo.20338868"

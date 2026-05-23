@@ -1,0 +1,11 @@
+[package]
+name = "rust_sota_bench"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+needletail = "0.6.3"
+simd-minimizers = { path = "../../../external/simd-minimizers" }
+anyhow = "1.0"
+clap = { version = "4.0", features = ["derive"] }
+rayon = "1.7"

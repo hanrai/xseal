@@ -1,0 +1,168 @@
+# Reference numbers from paper/sections/experiments.tex (Ryzen 5 5600X, Zen3).
+# Update when the manuscript changes. Keys must match metrics_* JSON blobs.
+
+tolerances:
+  warn_rel_pct: 8.0
+  fail_rel_pct: 15.0
+
+# Optional: looser bands for noisy or non-identical harness paths
+tolerances_loose:
+  warn_rel_pct: 18.0
+  fail_rel_pct: 48.0
+
+metrics:
+  # --- Part III integration (FASTA pipeline) ---
+  - id: e2e_xseal_integration_gbp_s
+    cref: "tab:integration"
+    description: "XSEAL integrated pipeline on hg38 (xseal_bench)"
+    expected: 8.41
+    unit: Gbp/s
+
+  - id: integration_rust_modular_e2e_gbp_s
+    cref: "tab:integration"
+    description: "simd-minimizers modular Rust baseline (RUN_RUST_SOTA=1)"
+    expected: 0.72
+    unit: Gbp/s
+    tolerance_group: loose
+
+  - id: integration_rust_modular_parse_gbp_s
+    cref: "tab:integration"
+    description: "rust_sota_bench parse+materialize phase (diagnostic; not a separate paper cell)"
+    expected: 1.0
+    unit: Gbp/s
+    skip_compare: true
+    skip_reason: "Diagnostic split from rust_sota_bench; no printed anchor in tab:integration"
+
+  - id: integration_rust_modular_scan_gbp_s
+    cref: "tab:integration"
+    description: "rust_sota_bench syncmer scan phase (diagnostic; not a separate paper cell)"
+    expected: 1.0
+    unit: Gbp/s
+    skip_compare: true
+    skip_reason: "Diagnostic split from rust_sota_bench; no printed anchor in tab:integration"
+
+  # --- paper_repro pure in-memory micro (NOT paper scaling table row; regression only) ---
+  - id: paper_repro_pure_xseal_open_12t_gbp_s
+    cref: "tab:scaling"
+    description: "paper_repro pure_syncmer_micro aggregate @12 threads (not rigorous 2-bit table)"
+    expected: 10.58
+    unit: Gbp/s
+    tolerance_group: loose
+
+  # --- Part I throughput anchors (2-bit hg38, K=31 S=11 W=21, rigorous_bench) ---
+  - id: simdmin_open_1t_gbp_s
+    cref: "tab:throughput"
+    description: "simd-minimizers OpenSync 1 thread (PDF Table 1)"
+    expected: 0.84
+    unit: Gbp/s
+
+  - id: xseal_open_1t_gbp_s
+    cref: "tab:throughput"
+    description: "XSEAL OpenSync 1 thread (PDF Table 1)"
+    expected: 1.74
+    unit: Gbp/s
+
+  - id: simdmin_minimizer_1t_gbp_s
+    cref: "tab:throughput"
+    description: "simd-minimizers Minimizer 1 thread (PDF Table 1)"
+    expected: 0.82
+    unit: Gbp/s
+    tolerance_group: loose
+
+  - id: xseal_minimizer_1t_gbp_s
+    cref: "tab:throughput"
+    description: "XSEAL Minimizer 1 thread (PDF Table 1)"
+    expected: 1.45
+    unit: Gbp/s
+    tolerance_group: loose
+
+  - id: simdmin_closed_sync_1t_gbp_s
+    cref: "tab:throughput"
+    description: "simd-minimizers Closed Sync 1 thread (PDF Table 1)"
+    expected: 0.81
+    unit: Gbp/s
+    tolerance_group: loose
+
+  - id: xseal_closed_sync_1t_gbp_s
+    cref: "tab:throughput"
+    description: "XSEAL Closed Sync 1 thread (PDF Table 1)"
+    expected: 1.70
+    unit: Gbp/s
+    tolerance_group: loose
+
+  - id: simdmin_open_12t_gbp_s
+    cref: "tab:scaling"
+    description: "simd-minimizers OpenSync 12 threads"
+    expected: 5.05
+    unit: Gbp/s
+    tolerance_group: loose
+
+  - id: xseal_open_12t_gbp_s
+    cref: "tab:scaling"
+    description: "XSEAL OpenSync 12 threads (rigorous 2-bit)"
+    expected: 10.58
+    unit: Gbp/s
+
+  # --- Part III encoder (synthetic 1024 MiB, rigorous encoder_scaling_bench) ---
+  - id: encoder_xseal_6t_freq0_gib_s
+    cref: "tab:encoder_scaling"
+    description: "XSEAL SIMD encoder 6 threads pure bases"
+    expected: 20.56
+    unit: GiB/s
+    tolerance_group: loose
+
+  - id: encoder_minimap2_6t_freq0_gib_s
+    cref: "tab:encoder_scaling"
+    description: "minimap2-style scalar encoder 6 threads pure bases"
+    expected: 12.86
+    unit: GiB/s
+    tolerance_group: loose
+
+  # --- Part III parser ---
+  - id: parser_micro_xseal_gib_s
+    cref: "tab:parser_micro"
+    description: "XSEAL DFA parser peak byte ingest hg38"
+    expected: 20.29
+    unit: GiB/s
+    tolerance_group: loose
+
+  # --- Part IV (optional; strongly environment-dependent) ---
+  - id: minimap2_index_total_s
+    cref: "tab:e2e_breakdown"
+    description: "minimap2 -d hg38 index wall time (RUN_MINIMAP2_E2E=1)"
+    expected: 44.58
+    unit: s
+    skip_compare: true
+    skip_reason: "SSD/FS/cache differ; paper used fixed testbed"
+
+  - id: minimap2_xseal_frontend_s
+    cref: "tab:e2e_breakdown"
+    description: "integration/minimap2_xseal_hardened: fused parse+sketch+mm_idx_add wall (RUN_MINIMAP2_XSEAL_E2E=1)"
+    expected: 0.67
+    unit: s
+    skip_compare: true
+    skip_reason: "Paper Zen3+SSD harness anchor; local repro is best-effort"
+
+  - id: minimap2_xseal_backend_s
+    cref: "tab:e2e_breakdown"
+    description: "mm_idx_post (sort + hash) wall after XSEAL frontend"
+    expected: 2.87
+    unit: s
+    skip_compare: true
+    skip_reason: "Paper Zen3+SSD harness anchor; local repro is best-effort"
+
+  - id: minimap2_xseal_e2e_s
+    cref: "tab:e2e_breakdown"
+    description: "frontend + backend wall inside mm_idx_gen (not full CLI process)"
+    expected: 22.71
+    unit: s
+    skip_compare: true
+    skip_reason: "Paper total index build differs from in-process segments; anchor only"
+
+  - id: minimap2_xseal_peak_rss_gib
+    cref: "tab:e2e_breakdown"
+    description: "Peak RSS after mm_idx_gen (getrusage maxrss)"
+    expected: 6.60
+    unit: GiB
+    skip_compare: true
+    skip_reason: "RSS depends on allocator/OS; paper reported 6.60 GB vs 11.94 GB"
