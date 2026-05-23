@@ -19,13 +19,13 @@
 XSeal is engineered for performance-critical bioinformatics applications. Profiled under realistic execution conditions (warm page-cache, memory-resident sequence data) on an AMD Ryzen 5 5600X (Zen 3, 6 physical cores, 12 SMT threads), it delivers:
 
 - **Ultra-Fast FASTA/FASTQ Ingestion**: DFA sequential parser ingestion rate exceeding **20 GiB/s** per core, bypassing intermediate string allocations.
-- **Extreme Single-Threaded Scanning (AVX2)**: Sustained core scanning speedup of **1.77$\times$--2.10$\times$** over recent SIMD rolling-hash baselines:
+- **Extreme Single-Threaded Scanning (AVX2)**: Sustained core scanning speedup of **1.77×--2.10×** over recent SIMD rolling-hash baselines:
   - **Minimizer Scanning**: **~1.45 Gbp/s** (vs. ~0.82 Gbp/s for `simd-minimizers`).
   - **Closed Syncmer Scanning**: **~1.70 Gbp/s** (vs. ~0.81 Gbp/s for `simd-minimizers`).
   - **Open Syncmer Scanning**: **~1.74 Gbp/s** (vs. ~0.84 Gbp/s for `simd-minimizers`).
 - **Efficient Multi-Thread Scaling**: Plateaus at **10.58--10.60 Gbp/s** aggregate throughput at 12–16 threads, suggesting a transition from memory pressure toward vector execution saturation.
 - **Lower Instruction Footprint**: Reduces retired instructions per base (instruction density) down to **7.8--9.3 insn/bp** (compared to 21.5--23.3 insn/bp in existing rolling-hash SIMD implementations).
-- **Substantial End-to-End Acceleration**: Accelerates `minimap2`'s sequence ingestion and sketching stage by **44.73$\times$** (from 29.97s to 0.67s), leading to a **2.27$\times$ overall end-to-end index-building speedup** (from 51.59s to 22.71s).
+- **Substantial End-to-End Acceleration**: Accelerates `minimap2`'s sequence ingestion and sketching stage by **44.73×** (from 29.97s to 0.67s), leading to a **2.27× overall end-to-end index-building speedup** (from 51.59s to 22.71s).
 
 ---
 
@@ -37,7 +37,7 @@ XSeal's massive performance gains are achieved through several key micro-archite
   - *Stream (Cache-Level Staging)*: Tasks are chunked to $\sim$128 KB (2-bit encoded), maintaining strict L2 cache residency to mitigate OS scheduling jitter.
   - *Buffer (L1-Level Staging)*: Decouples phase 1 s-mer extraction and phase 2 reduction using a 640-byte internal scratch buffer (`hash_buf[160]`), avoiding register spill.
   - *Vector (Register-Level Coupling)*: Binds hot loop iterations directly to 256-bit YMM registers.
-- **Stateless SIMD Hashing (vs. Stateful NtHash)**: Rather than maintaining stateful sliding rolling hash recurrence relations across vector lanes (which causes branch and register bookkeeping bloat), XSeal computes canonical s-mer hashes independently from scratch inside YMM registers, slashing instruction density by more than $2.6\times$.
+- **Stateless SIMD Hashing (vs. Stateful NtHash)**: Rather than maintaining stateful sliding rolling hash recurrence relations across vector lanes (which causes branch and register bookkeeping bloat), XSeal computes canonical s-mer hashes independently from scratch inside YMM registers, slashing instruction density by more than 2.6×.
 - **4-Way Accumulator ILP Forcing via Fold Expressions**: Unrolls window reduction loops using C++17 fold expressions into four independent dependency chains, allowing modern Out-of-Order engines to schedule execution port cycles concurrently.
 - **PHI (Packed Hash-Index) Reduction**: Combines the 24-bit MSB hash with its 8-bit local position offset into a single `uint32_t`. A single `vpminud` vector lane reduction simultaneously extracts the minimum hash and its coordinate, eliminating conditional branching.
 - **Zero-Copy Boundary-Safe SIMD Streaming**: Streamlines direct memory mapping (`mmap`) processing using SIMD lookahead and an automated scalar fallback tail, avoiding segmentation faults at memory page boundaries.
